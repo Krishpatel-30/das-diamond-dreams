@@ -76,10 +76,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "description", content: "DAS Diamonds: a modern luxury diamond house specializing in lab grown and natural polished diamonds, certified by GIA & IGI." },
       { name: "author", content: "DAS Diamonds" },
       { property: "og:title", content: "DAS Diamonds — Crafted Brilliance. Timeless Luxury." },
-      { property: "og:description", content: "Lab grown and natural polished diamonds, certified and ethically sourced." },
+      { property: "og:description", content: "DAS Diamonds: a modern luxury diamond house specializing in lab grown and natural polished diamonds, certified by GIA & IGI." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "DAS Diamonds — Crafted Brilliance. Timeless Luxury." },
+      { name: "twitter:description", content: "DAS Diamonds: a modern luxury diamond house specializing in lab grown and natural polished diamonds, certified by GIA & IGI." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/4f17154f-654b-4301-bdac-a4ff5904b2ab" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/4f17154f-654b-4301-bdac-a4ff5904b2ab" },
     ],
     links: [
       {
