@@ -47,7 +47,20 @@ function Contact() {
       </div>
 
       <form
-        onSubmit={(e) => { e.preventDefault(); setSent(true); }}
+        onSubmit={(e) => {
+          e.preventDefault();
+          const f = e.currentTarget as HTMLFormElement;
+          const data = new FormData(f);
+          const name = String(data.get("name") || "");
+          const email = String(data.get("email") || "");
+          const phone = String(data.get("phone") || "");
+          const interest = String(data.get("interest") || "");
+          const message = String(data.get("message") || "");
+          const subject = `New Inquiry from ${name} — ${interest}`;
+          const body = `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nInterest: ${interest}\n\nMessage:\n${message}`;
+          window.location.href = `mailto:dasdiamondsatyourservice@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+          setSent(true);
+        }}
         className="bg-card border border-border p-8 md:p-12 space-y-6"
       >
         {sent ? (
@@ -65,7 +78,7 @@ function Contact() {
             <Field label="Phone" name="phone" type="tel" />
             <div>
               <label className="eyebrow block mb-2">Interest</label>
-              <select className="w-full bg-transparent border-b border-border py-3 outline-none focus:border-foreground transition">
+              <select name="interest" className="w-full bg-transparent border-b border-border py-3 outline-none focus:border-foreground transition">
                 <option>Lab Grown Diamond</option>
                 <option>Natural Polished Diamond</option>
                 <option>Bespoke Design</option>
@@ -74,7 +87,7 @@ function Contact() {
             </div>
             <div>
               <label className="eyebrow block mb-2">Message</label>
-              <textarea rows={5} className="w-full bg-transparent border-b border-border py-3 outline-none focus:border-foreground transition resize-none" />
+              <textarea name="message" rows={5} className="w-full bg-transparent border-b border-border py-3 outline-none focus:border-foreground transition resize-none" />
             </div>
             <button className="w-full mt-4 px-8 py-4 bg-foreground text-background text-xs uppercase tracking-[0.32em] hover:bg-foreground/85 transition">
               Request Appointment
