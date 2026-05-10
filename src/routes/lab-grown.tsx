@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import labImg from "@/assets/lab-grown.jpg";
 import { ProductCard } from "@/components/ProductCard";
-import { byType } from "@/lib/products";
+import { useProducts } from "@/lib/products";
 
 export const Route = createFileRoute("/lab-grown")({
   head: () => ({
