@@ -11,9 +11,11 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ShopRouteImport } from './routes/shop'
 import { Route as PolishedRouteImport } from './routes/polished'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as LabGrownRouteImport } from './routes/lab-grown'
 import { Route as EducationRouteImport } from './routes/education'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProductsIdRouteImport } from './routes/products.$id'
@@ -26,6 +28,11 @@ const ShopRoute = ShopRouteImport.update({
 const PolishedRoute = PolishedRouteImport.update({
   id: '/polished',
   path: '/polished',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LabGrownRoute = LabGrownRouteImport.update({
@@ -41,6 +48,11 @@ const EducationRoute = EducationRouteImport.update({
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -62,9 +74,11 @@ const ProductsIdRoute = ProductsIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRoute
   '/contact': typeof ContactRoute
   '/education': typeof EducationRoute
   '/lab-grown': typeof LabGrownRoute
+  '/login': typeof LoginRoute
   '/polished': typeof PolishedRoute
   '/shop': typeof ShopRoute
   '/products/$id': typeof ProductsIdRoute
@@ -72,9 +86,11 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRoute
   '/contact': typeof ContactRoute
   '/education': typeof EducationRoute
   '/lab-grown': typeof LabGrownRoute
+  '/login': typeof LoginRoute
   '/polished': typeof PolishedRoute
   '/shop': typeof ShopRoute
   '/products/$id': typeof ProductsIdRoute
@@ -83,9 +99,11 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRoute
   '/contact': typeof ContactRoute
   '/education': typeof EducationRoute
   '/lab-grown': typeof LabGrownRoute
+  '/login': typeof LoginRoute
   '/polished': typeof PolishedRoute
   '/shop': typeof ShopRoute
   '/products/$id': typeof ProductsIdRoute
@@ -95,9 +113,11 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/admin'
     | '/contact'
     | '/education'
     | '/lab-grown'
+    | '/login'
     | '/polished'
     | '/shop'
     | '/products/$id'
@@ -105,9 +125,11 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/admin'
     | '/contact'
     | '/education'
     | '/lab-grown'
+    | '/login'
     | '/polished'
     | '/shop'
     | '/products/$id'
@@ -115,9 +137,11 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
+    | '/admin'
     | '/contact'
     | '/education'
     | '/lab-grown'
+    | '/login'
     | '/polished'
     | '/shop'
     | '/products/$id'
@@ -126,9 +150,11 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AdminRoute: typeof AdminRoute
   ContactRoute: typeof ContactRoute
   EducationRoute: typeof EducationRoute
   LabGrownRoute: typeof LabGrownRoute
+  LoginRoute: typeof LoginRoute
   PolishedRoute: typeof PolishedRoute
   ShopRoute: typeof ShopRoute
   ProductsIdRoute: typeof ProductsIdRoute
@@ -150,6 +176,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PolishedRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/lab-grown': {
       id: '/lab-grown'
       path: '/lab-grown'
@@ -169,6 +202,13 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -198,9 +238,11 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AdminRoute: AdminRoute,
   ContactRoute: ContactRoute,
   EducationRoute: EducationRoute,
   LabGrownRoute: LabGrownRoute,
+  LoginRoute: LoginRoute,
   PolishedRoute: PolishedRoute,
   ShopRoute: ShopRoute,
   ProductsIdRoute: ProductsIdRoute,
