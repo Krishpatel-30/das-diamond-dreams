@@ -33,11 +33,11 @@ function Contact() {
           </div>
           <div>
             <dt className="eyebrow">Email</dt>
-            <dd className="mt-2"><a href="mailto:concierge@dasdiamonds.com" className="luxury-link">concierge@dasdiamonds.com</a></dd>
+            <dd className="mt-2"><a href="mailto:dasdiamondsatyourservice@gmail.com" className="luxury-link">dasdiamondsatyourservice@gmail.com</a></dd>
           </div>
           <div>
             <dt className="eyebrow">Telephone</dt>
-            <dd className="mt-2"><a href="tel:+911234567890" className="luxury-link">+91 12345 67890</a></dd>
+            <dd className="mt-2"><a href="tel:+918488080517" className="luxury-link">+91 84880 80517</a></dd>
           </div>
           <div>
             <dt className="eyebrow">Hours</dt>
