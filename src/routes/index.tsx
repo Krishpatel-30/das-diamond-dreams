@@ -20,7 +20,8 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
-  const featured = bestsellers();
+  const { data: all = [] } = useProducts();
+  const featured = all.filter((p) => p.bestseller);
 
   return (
     <>
