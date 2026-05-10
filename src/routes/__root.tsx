@@ -72,11 +72,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "DAS Diamonds — Crafted Brilliance. Timeless Luxury." },
+      { name: "description", content: "DAS Diamonds: a modern luxury diamond house specializing in lab grown and natural polished diamonds, certified by GIA & IGI." },
+      { name: "author", content: "DAS Diamonds" },
+      { property: "og:title", content: "DAS Diamonds — Crafted Brilliance. Timeless Luxury." },
+      { property: "og:description", content: "Lab grown and natural polished diamonds, certified and ethically sourced." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
@@ -108,12 +108,21 @@ function RootShell({ children }: { children: React.ReactNode }) {
   );
 }
 
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
+import { WhatsAppButton } from "@/components/WhatsAppButton";
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Outlet />
+      <Header />
+      <main className="pt-20">
+        <Outlet />
+      </main>
+      <Footer />
+      <WhatsAppButton />
     </QueryClientProvider>
   );
 }
