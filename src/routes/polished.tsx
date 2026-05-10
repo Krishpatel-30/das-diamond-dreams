@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import natImg from "@/assets/polished.jpg";
 import { ProductCard } from "@/components/ProductCard";
-import { byType } from "@/lib/products";
+import { useProducts } from "@/lib/products";
 
 export const Route = createFileRoute("/polished")({
   head: () => ({
@@ -16,7 +16,8 @@ export const Route = createFileRoute("/polished")({
 });
 
 function Polished() {
-  const items = byType("natural");
+  const { data: all = [] } = useProducts();
+  const items = all.filter((p) => p.type === "natural");
   return (
     <>
       <section className="relative h-[60vh] min-h-[480px] flex items-end overflow-hidden">

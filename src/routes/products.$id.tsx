@@ -1,34 +1,13 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Heart, ShoppingBag } from "lucide-react";
 import { ProductCard } from "@/components/ProductCard";
-import { getProduct, products, formatPrice } from "@/lib/products";
+import { useProduct, useProducts, formatPrice } from "@/lib/products";
 
 export const Route = createFileRoute("/products/$id")({
-  loader: ({ params }) => {
-    const product = getProduct(params.id);
-    if (!product) throw notFound();
-    return { product };
-  },
-  head: ({ loaderData }) => {
-    const p = loaderData?.product;
-    if (!p) return { meta: [{ title: "Diamond — DAS Diamonds" }] };
-    return {
-      meta: [
-        { title: `${p.name} — ${p.carat}ct ${p.shape} — DAS Diamonds` },
-        { name: "description", content: p.description },
-        { property: "og:title", content: `${p.name} — DAS Diamonds` },
-        { property: "og:description", content: p.description },
-        { property: "og:image", content: p.image },
-      ],
-    };
-  },
-  notFoundComponent: () => (
-    <div className="mx-auto max-w-3xl px-6 py-32 text-center">
-      <h1 className="font-serif text-5xl">Diamond not found</h1>
-      <Link to="/shop" className="mt-8 inline-block luxury-link eyebrow">Back to collection</Link>
-    </div>
-  ),
+  head: () => ({
+    meta: [{ title: "Diamond — DAS Diamonds" }],
+  }),
   errorComponent: ({ error }) => (
     <div className="mx-auto max-w-3xl px-6 py-32 text-center">
       <h1 className="font-serif text-5xl">Something went wrong</h1>
@@ -39,10 +18,21 @@ export const Route = createFileRoute("/products/$id")({
 });
 
 function ProductPage() {
-  const { product } = Route.useLoaderData();
+  const { id } = Route.useParams();
+  const { data: product, isLoading } = useProduct(id);
+  const { data: all = [] } = useProducts();
   const [active, setActive] = useState(0);
+
+  if (isLoading) return <div className="mx-auto max-w-3xl px-6 py-32 text-center text-muted-foreground">Loading…</div>;
+  if (!product) return (
+    <div className="mx-auto max-w-3xl px-6 py-32 text-center">
+      <h1 className="font-serif text-5xl">Diamond not found</h1>
+      <Link to="/shop" className="mt-8 inline-block luxury-link eyebrow">Back to collection</Link>
+    </div>
+  );
+
   const gallery = product.gallery.length ? product.gallery : [product.image];
-  const related = products.filter((p) => p.id !== product.id && p.type === product.type).slice(0, 3);
+  const related = all.filter((p) => p.id !== product.id && p.type === product.type).slice(0, 3);
 
   const wa = `https://wa.me/911234567890?text=${encodeURIComponent(
     `Hello DAS Diamonds, I'd like more information about ${product.name} (${product.id}).`,

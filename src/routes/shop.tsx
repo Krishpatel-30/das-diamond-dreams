@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { ProductCard } from "@/components/ProductCard";
-import { products, type DiamondType } from "@/lib/products";
+import { useProducts, type DiamondType } from "@/lib/products";
 
 export const Route = createFileRoute("/shop")({
   head: () => ({
@@ -17,6 +17,7 @@ export const Route = createFileRoute("/shop")({
 const SHAPES = ["Round", "Oval", "Emerald", "Cushion", "Pear", "Marquise", "Radiant"];
 
 function Shop() {
+  const { data: products = [] } = useProducts();
   const [type, setType] = useState<DiamondType | "all">("all");
   const [shape, setShape] = useState<string | "all">("all");
   const [sort, setSort] = useState<"feat" | "asc" | "desc" | "carat">("feat");
@@ -29,7 +30,7 @@ function Shop() {
     if (sort === "desc") r.sort((a, b) => b.price - a.price);
     if (sort === "carat") r.sort((a, b) => b.carat - a.carat);
     return r;
-  }, [type, shape, sort]);
+  }, [type, shape, sort, products]);
 
   return (
     <section className="mx-auto max-w-7xl px-6 py-16 md:py-24">

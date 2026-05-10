@@ -4,7 +4,7 @@ import labImg from "@/assets/lab-grown.jpg";
 import natImg from "@/assets/polished.jpg";
 import craftImg from "@/assets/craft.jpg";
 import { ProductCard } from "@/components/ProductCard";
-import { bestsellers } from "@/lib/products";
+import { useProducts } from "@/lib/products";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -20,7 +20,8 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
-  const featured = bestsellers();
+  const { data: all = [] } = useProducts();
+  const featured = all.filter((p) => p.bestseller);
 
   return (
     <>

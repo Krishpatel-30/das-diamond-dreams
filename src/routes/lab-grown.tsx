@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import labImg from "@/assets/lab-grown.jpg";
 import { ProductCard } from "@/components/ProductCard";
-import { byType } from "@/lib/products";
+import { useProducts } from "@/lib/products";
 
 export const Route = createFileRoute("/lab-grown")({
   head: () => ({
@@ -16,7 +16,8 @@ export const Route = createFileRoute("/lab-grown")({
 });
 
 function LabGrown() {
-  const items = byType("lab-grown");
+  const { data: all = [] } = useProducts();
+  const items = all.filter((p) => p.type === "lab-grown");
   return (
     <>
       <section className="relative h-[60vh] min-h-[480px] flex items-end overflow-hidden">

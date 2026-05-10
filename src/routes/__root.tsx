@@ -115,6 +115,7 @@ function RootShell({ children }: { children: React.ReactNode }) {
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
+import { Toaster } from "@/components/ui/sonner";
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
@@ -127,6 +128,7 @@ function RootComponent() {
       </main>
       <Footer />
       <WhatsAppButton />
+      <Toaster />
     </QueryClientProvider>
   );
 }
