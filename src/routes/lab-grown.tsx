@@ -16,7 +16,8 @@ export const Route = createFileRoute("/lab-grown")({
 });
 
 function LabGrown() {
-  const items = byType("lab-grown");
+  const { data: all = [] } = useProducts();
+  const items = all.filter((p) => p.type === "lab-grown");
   return (
     <>
       <section className="relative h-[60vh] min-h-[480px] flex items-end overflow-hidden">
