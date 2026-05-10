@@ -18,7 +18,7 @@ const C = [
   { letter: "C", word: "Carat", body: "A measure of weight, not size. One carat equals 0.2 grams. Larger stones are exponentially rarer." },
 ];
 
-export const Route_ = Route; // keep TS happy if unused
+
 
 function Education() {
   return (
