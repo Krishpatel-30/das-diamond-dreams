@@ -74,7 +74,19 @@ function ProductPage() {
             <h1 className="mt-3 font-serif text-5xl md:text-6xl">{product.name}</h1>
             <p className="mt-6 text-foreground/75 leading-relaxed">{product.description}</p>
 
-            <p className="mt-8 font-serif text-4xl">{formatPrice(product.price)}</p>
+            <div className="mt-8 flex items-baseline gap-4">
+              {onSale ? (
+                <>
+                  <p className="font-serif text-4xl text-rose-600">{formatPrice(product.discountPrice!)}</p>
+                  <p className="font-serif text-2xl text-muted-foreground line-through">{formatPrice(product.price)}</p>
+                </>
+              ) : (
+                <p className="font-serif text-4xl">{formatPrice(product.price)}</p>
+              )}
+            </div>
+            <p className={`mt-3 text-xs uppercase tracking-widest ${outOfStock ? "text-destructive" : lowStock ? "text-amber-600" : "text-muted-foreground"}`}>
+              {outOfStock ? "Sold — Inquire for similar" : lowStock ? `Only ${product.stock} left in vault` : "In stock · Ready to ship"}
+            </p>
 
             <dl className="mt-10 grid grid-cols-2 gap-y-5 gap-x-8 text-sm border-t border-border pt-8">
               {[
@@ -94,8 +106,11 @@ function ProductPage() {
             </dl>
 
             <div className="mt-10 flex flex-wrap gap-3">
-              <button className="flex-1 min-w-[200px] inline-flex items-center justify-center gap-2 px-8 py-4 bg-foreground text-background text-xs uppercase tracking-[0.32em] hover:bg-foreground/85 transition">
-                <ShoppingBag size={16} /> Add to Bag
+              <button
+                disabled={outOfStock}
+                className="flex-1 min-w-[200px] inline-flex items-center justify-center gap-2 px-8 py-4 bg-foreground text-background text-xs uppercase tracking-[0.32em] hover:bg-foreground/85 transition disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <ShoppingBag size={16} /> {outOfStock ? "Sold" : "Add to Bag"}
               </button>
               <button className="size-[52px] grid place-items-center border border-border hover:border-foreground transition" aria-label="Wishlist">
                 <Heart size={18} />
