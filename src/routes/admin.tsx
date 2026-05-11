@@ -15,6 +15,7 @@ const empty: Product = {
   id: "", name: "", type: "lab-grown", shape: "Round", carat: 1, color: "D",
   clarity: "VS1", cut: "Excellent", certification: "IGI", origin: "",
   price: 0, image: "", gallery: [], description: "", bestseller: false,
+  stock: 1, discountPrice: null, featured: false,
 };
 
 function Admin() {
