@@ -21,7 +21,7 @@ export const Route = createFileRoute("/")({
 
 function Home() {
   const { data: all = [] } = useProducts();
-  const featured = all.filter((p) => p.bestseller);
+  const featured = all.filter((p) => p.featured || p.bestseller).slice(0, 4);
 
   return (
     <>

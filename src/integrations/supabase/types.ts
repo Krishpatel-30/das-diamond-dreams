@@ -24,6 +24,8 @@ export type Database = {
           created_at: string
           cut: string
           description: string
+          discount_price: number | null
+          featured: boolean
           gallery: Json
           id: string
           image: string
@@ -32,6 +34,7 @@ export type Database = {
           price: number
           shape: string
           sort_order: number
+          stock: number
           type: string
           updated_at: string
         }
@@ -44,6 +47,8 @@ export type Database = {
           created_at?: string
           cut: string
           description?: string
+          discount_price?: number | null
+          featured?: boolean
           gallery?: Json
           id: string
           image: string
@@ -52,6 +57,7 @@ export type Database = {
           price: number
           shape: string
           sort_order?: number
+          stock?: number
           type: string
           updated_at?: string
         }
@@ -64,6 +70,8 @@ export type Database = {
           created_at?: string
           cut?: string
           description?: string
+          discount_price?: number | null
+          featured?: boolean
           gallery?: Json
           id?: string
           image?: string
@@ -72,6 +80,7 @@ export type Database = {
           price?: number
           shape?: string
           sort_order?: number
+          stock?: number
           type?: string
           updated_at?: string
         }
