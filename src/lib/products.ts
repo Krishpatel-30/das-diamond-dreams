@@ -19,6 +19,9 @@ export type Product = {
   gallery: string[];
   description: string;
   bestseller?: boolean;
+  stock: number;
+  discountPrice?: number | null;
+  featured: boolean;
 };
 
 export const formatPrice = (n: number) =>
@@ -40,6 +43,9 @@ const mapRow = (r: any): Product => ({
   gallery: Array.isArray(r.gallery) ? r.gallery as string[] : [],
   description: r.description ?? "",
   bestseller: !!r.bestseller,
+  stock: typeof r.stock === "number" ? r.stock : Number(r.stock ?? 1),
+  discountPrice: r.discount_price != null ? Number(r.discount_price) : null,
+  featured: !!r.featured,
 });
 
 export async function fetchProducts(): Promise<Product[]> {
