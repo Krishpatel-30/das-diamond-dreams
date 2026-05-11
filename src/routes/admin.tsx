@@ -161,8 +161,13 @@ function ProductDialog({ product, onClose, onSaved }: { product: Product; onClos
   const save = async () => {
     if (!p.id || !p.name || !p.image) { toast.error("ID, name and main image are required"); return; }
     setSaving(true);
-    const payload = { ...p, gallery: p.gallery as any };
-    const { error } = await supabase.from("products").upsert(payload as any);
+    const { discountPrice, ...rest } = p;
+    const payload: any = {
+      ...rest,
+      gallery: p.gallery,
+      discount_price: discountPrice ?? null,
+    };
+    const { error } = await supabase.from("products").upsert(payload);
     setSaving(false);
     if (error) toast.error(error.message); else { toast.success("Saved"); onSaved(); }
   };
@@ -188,6 +193,8 @@ function ProductDialog({ product, onClose, onSaved }: { product: Product; onClos
           <Field label="Shape" value={p.shape} onChange={(v) => set("shape", v)} />
           <Field label="Carat" type="number" step="0.01" value={String(p.carat)} onChange={(v) => set("carat", Number(v))} />
           <Field label="Price (USD)" type="number" value={String(p.price)} onChange={(v) => set("price", Number(v))} />
+          <Field label="Discount Price (USD)" type="number" value={p.discountPrice == null ? "" : String(p.discountPrice)} onChange={(v) => set("discountPrice", v === "" ? null : Number(v))} />
+          <Field label="Stock" type="number" value={String(p.stock)} onChange={(v) => set("stock", Math.max(0, Math.floor(Number(v) || 0)))} />
           <Field label="Color" value={p.color} onChange={(v) => set("color", v)} />
           <Field label="Clarity" value={p.clarity} onChange={(v) => set("clarity", v)} />
           <Field label="Cut" value={p.cut} onChange={(v) => set("cut", v)} />
@@ -196,6 +203,10 @@ function ProductDialog({ product, onClose, onSaved }: { product: Product; onClos
           <label className="flex items-center gap-2 self-end pb-2">
             <input type="checkbox" checked={!!p.bestseller} onChange={(e) => set("bestseller", e.target.checked)} />
             <span className="eyebrow">Bestseller</span>
+          </label>
+          <label className="flex items-center gap-2 self-end pb-2">
+            <input type="checkbox" checked={!!p.featured} onChange={(e) => set("featured", e.target.checked)} />
+            <span className="eyebrow">Featured</span>
           </label>
           <div className="md:col-span-2">
             <label className="eyebrow block mb-2">Description</label>
