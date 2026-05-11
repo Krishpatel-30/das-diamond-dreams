@@ -21,16 +21,24 @@ function Shop() {
   const [type, setType] = useState<DiamondType | "all">("all");
   const [shape, setShape] = useState<string | "all">("all");
   const [sort, setSort] = useState<"feat" | "asc" | "desc" | "carat">("feat");
+  const [featuredOnly, setFeaturedOnly] = useState(false);
+  const [inStockOnly, setInStockOnly] = useState(false);
+
+  const priceOf = (p: typeof products[number]) =>
+    p.discountPrice != null && p.discountPrice > 0 && p.discountPrice < p.price ? p.discountPrice : p.price;
 
   const filtered = useMemo(() => {
     let r = products.slice();
     if (type !== "all") r = r.filter((p) => p.type === type);
     if (shape !== "all") r = r.filter((p) => p.shape === shape);
-    if (sort === "asc") r.sort((a, b) => a.price - b.price);
-    if (sort === "desc") r.sort((a, b) => b.price - a.price);
+    if (featuredOnly) r = r.filter((p) => p.featured);
+    if (inStockOnly) r = r.filter((p) => p.stock > 0);
+    if (sort === "feat") r.sort((a, b) => Number(b.featured) - Number(a.featured));
+    if (sort === "asc") r.sort((a, b) => priceOf(a) - priceOf(b));
+    if (sort === "desc") r.sort((a, b) => priceOf(b) - priceOf(a));
     if (sort === "carat") r.sort((a, b) => b.carat - a.carat);
     return r;
-  }, [type, shape, sort, products]);
+  }, [type, shape, sort, featuredOnly, inStockOnly, products]);
 
   return (
     <section className="mx-auto max-w-7xl px-6 py-16 md:py-24">
@@ -77,6 +85,17 @@ function Shop() {
             <option value="carat">Carat ↓</option>
           </select>
         </div>
+      </div>
+
+      <div className="mt-6 flex flex-wrap gap-6 text-xs uppercase tracking-widest">
+        <label className="inline-flex items-center gap-2 cursor-pointer">
+          <input type="checkbox" checked={featuredOnly} onChange={(e) => setFeaturedOnly(e.target.checked)} />
+          Featured only
+        </label>
+        <label className="inline-flex items-center gap-2 cursor-pointer">
+          <input type="checkbox" checked={inStockOnly} onChange={(e) => setInStockOnly(e.target.checked)} />
+          In stock only
+        </label>
       </div>
 
       <div className="hairline my-10" />
