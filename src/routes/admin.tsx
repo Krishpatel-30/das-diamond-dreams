@@ -104,6 +104,7 @@ function Admin() {
                 <th className="text-left p-4">Type</th>
                 <th className="text-left p-4">Carat</th>
                 <th className="text-right p-4">Price</th>
+                <th className="text-right p-4">Stock</th>
                 <th className="text-right p-4">Actions</th>
               </tr>
             </thead>
@@ -113,11 +114,27 @@ function Admin() {
                   <td className="p-3"><img src={p.image} alt="" className="size-14 object-cover" /></td>
                   <td className="p-4">
                     <div className="font-medium">{p.name}</div>
-                    <div className="text-xs text-muted-foreground">{p.shape} · {p.color}/{p.clarity}{p.bestseller && " · ★"}</div>
+                    <div className="text-xs text-muted-foreground">
+                      {p.shape} · {p.color}/{p.clarity}
+                      {p.featured && " · ★ Featured"}
+                      {p.bestseller && " · Bestseller"}
+                    </div>
                   </td>
                   <td className="p-4 text-xs uppercase tracking-widest">{p.type === "lab-grown" ? "Lab" : "Natural"}</td>
                   <td className="p-4">{p.carat.toFixed(2)}</td>
-                  <td className="p-4 text-right font-serif">{formatPrice(p.price)}</td>
+                  <td className="p-4 text-right font-serif">
+                    {p.discountPrice != null && p.discountPrice < p.price ? (
+                      <>
+                        <span className="text-rose-600">{formatPrice(p.discountPrice)}</span>
+                        <span className="block text-xs text-muted-foreground line-through">{formatPrice(p.price)}</span>
+                      </>
+                    ) : formatPrice(p.price)}
+                  </td>
+                  <td className="p-4 text-right">
+                    <span className={`text-xs ${p.stock <= 0 ? "text-destructive" : p.stock < 3 ? "text-amber-600" : "text-muted-foreground"}`}>
+                      {p.stock}
+                    </span>
+                  </td>
                   <td className="p-4 text-right">
                     <div className="inline-flex gap-2">
                       <button onClick={() => setEditing(p)} className="p-2 hover:bg-secondary"><Pencil size={16} /></button>
