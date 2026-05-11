@@ -34,7 +34,11 @@ function ProductPage() {
   const gallery = product.gallery.length ? product.gallery : [product.image];
   const related = all.filter((p) => p.id !== product.id && p.type === product.type).slice(0, 3);
 
-  const wa = `https://wa.me/911234567890?text=${encodeURIComponent(
+  const onSale = product.discountPrice != null && product.discountPrice > 0 && product.discountPrice < product.price;
+  const outOfStock = product.stock <= 0;
+  const lowStock = !outOfStock && product.stock < 3;
+
+  const wa = `https://wa.me/918488080517?text=${encodeURIComponent(
     `Hello DAS Diamonds, I'd like more information about ${product.name} (${product.id}).`,
   )}`;
 
