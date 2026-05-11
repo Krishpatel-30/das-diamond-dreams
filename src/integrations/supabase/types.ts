@@ -14,6 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
+      inquiries: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          interest: string | null
+          message: string
+          name: string
+          phone: string | null
+          product_id: string | null
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          interest?: string | null
+          message: string
+          name: string
+          phone?: string | null
+          product_id?: string | null
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          interest?: string | null
+          message?: string
+          name?: string
+          phone?: string | null
+          product_id?: string | null
+          status?: string
+        }
+        Relationships: []
+      }
       products: {
         Row: {
           bestseller: boolean
