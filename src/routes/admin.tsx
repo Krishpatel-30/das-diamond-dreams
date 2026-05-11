@@ -82,7 +82,10 @@ function Admin() {
           <p className="eyebrow">Maison · Inventory</p>
           <h1 className="mt-2 font-serif text-5xl">Admin</h1>
         </div>
-        <div className="flex gap-3">
+        <div className="flex gap-3 flex-wrap">
+          <Link to="/admin/inquiries" className="inline-flex items-center gap-2 px-5 py-3 border border-border text-xs uppercase tracking-[0.28em] hover:border-foreground">
+            Inquiries
+          </Link>
           <button onClick={() => setEditing({ ...empty, id: `diamond-${Date.now()}` })}
             className="inline-flex items-center gap-2 px-5 py-3 bg-foreground text-background text-xs uppercase tracking-[0.28em]">
             <Plus size={14} /> Add Diamond

@@ -19,6 +19,7 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProductsIdRouteImport } from './routes/products.$id'
+import { Route as AdminInquiriesRouteImport } from './routes/admin.inquiries'
 
 const ShopRoute = ShopRouteImport.update({
   id: '/shop',
@@ -70,42 +71,50 @@ const ProductsIdRoute = ProductsIdRouteImport.update({
   path: '/products/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminInquiriesRoute = AdminInquiriesRouteImport.update({
+  id: '/inquiries',
+  path: '/inquiries',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/admin': typeof AdminRoute
+  '/admin': typeof AdminRouteWithChildren
   '/contact': typeof ContactRoute
   '/education': typeof EducationRoute
   '/lab-grown': typeof LabGrownRoute
   '/login': typeof LoginRoute
   '/polished': typeof PolishedRoute
   '/shop': typeof ShopRoute
+  '/admin/inquiries': typeof AdminInquiriesRoute
   '/products/$id': typeof ProductsIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/admin': typeof AdminRoute
+  '/admin': typeof AdminRouteWithChildren
   '/contact': typeof ContactRoute
   '/education': typeof EducationRoute
   '/lab-grown': typeof LabGrownRoute
   '/login': typeof LoginRoute
   '/polished': typeof PolishedRoute
   '/shop': typeof ShopRoute
+  '/admin/inquiries': typeof AdminInquiriesRoute
   '/products/$id': typeof ProductsIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/admin': typeof AdminRoute
+  '/admin': typeof AdminRouteWithChildren
   '/contact': typeof ContactRoute
   '/education': typeof EducationRoute
   '/lab-grown': typeof LabGrownRoute
   '/login': typeof LoginRoute
   '/polished': typeof PolishedRoute
   '/shop': typeof ShopRoute
+  '/admin/inquiries': typeof AdminInquiriesRoute
   '/products/$id': typeof ProductsIdRoute
 }
 export interface FileRouteTypes {
@@ -120,6 +129,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/polished'
     | '/shop'
+    | '/admin/inquiries'
     | '/products/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -132,6 +142,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/polished'
     | '/shop'
+    | '/admin/inquiries'
     | '/products/$id'
   id:
     | '__root__'
@@ -144,13 +155,14 @@ export interface FileRouteTypes {
     | '/login'
     | '/polished'
     | '/shop'
+    | '/admin/inquiries'
     | '/products/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
-  AdminRoute: typeof AdminRoute
+  AdminRoute: typeof AdminRouteWithChildren
   ContactRoute: typeof ContactRoute
   EducationRoute: typeof EducationRoute
   LabGrownRoute: typeof LabGrownRoute
@@ -232,13 +244,30 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductsIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/inquiries': {
+      id: '/admin/inquiries'
+      path: '/inquiries'
+      fullPath: '/admin/inquiries'
+      preLoaderRoute: typeof AdminInquiriesRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
+
+interface AdminRouteChildren {
+  AdminInquiriesRoute: typeof AdminInquiriesRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminInquiriesRoute: AdminInquiriesRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
-  AdminRoute: AdminRoute,
+  AdminRoute: AdminRouteWithChildren,
   ContactRoute: ContactRoute,
   EducationRoute: EducationRoute,
   LabGrownRoute: LabGrownRoute,

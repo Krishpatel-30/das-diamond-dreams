@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -14,6 +16,7 @@ export const Route = createFileRoute("/contact")({
 
 function Contact() {
   const [sent, setSent] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   return (
     <section className="mx-auto max-w-7xl px-6 py-20 grid lg:grid-cols-2 gap-16">
       <div>
@@ -47,18 +50,23 @@ function Contact() {
       </div>
 
       <form
-        onSubmit={(e) => {
+        onSubmit={async (e) => {
           e.preventDefault();
           const f = e.currentTarget as HTMLFormElement;
           const data = new FormData(f);
-          const name = String(data.get("name") || "");
-          const email = String(data.get("email") || "");
-          const phone = String(data.get("phone") || "");
-          const interest = String(data.get("interest") || "");
-          const message = String(data.get("message") || "");
-          const subject = `New Inquiry from ${name} — ${interest}`;
-          const body = `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nInterest: ${interest}\n\nMessage:\n${message}`;
-          window.location.href = `mailto:dasdiamondsatyourservice@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+          const name = String(data.get("name") || "").trim().slice(0, 120);
+          const email = String(data.get("email") || "").trim().slice(0, 255);
+          const phone = String(data.get("phone") || "").trim().slice(0, 40) || null;
+          const interest = String(data.get("interest") || "").trim().slice(0, 80) || null;
+          const message = String(data.get("message") || "").trim().slice(0, 4000);
+          if (!name || !email || !message) {
+            toast.error("Please fill in name, email, and message.");
+            return;
+          }
+          setSubmitting(true);
+          const { error } = await supabase.from("inquiries").insert({ name, email, phone, interest, message });
+          setSubmitting(false);
+          if (error) { toast.error(error.message); return; }
           setSent(true);
         }}
         className="bg-card border border-border p-8 md:p-12 space-y-6"
@@ -89,8 +97,8 @@ function Contact() {
               <label className="eyebrow block mb-2">Message</label>
               <textarea name="message" rows={5} className="w-full bg-transparent border-b border-border py-3 outline-none focus:border-foreground transition resize-none" />
             </div>
-            <button className="w-full mt-4 px-8 py-4 bg-foreground text-background text-xs uppercase tracking-[0.32em] hover:bg-foreground/85 transition">
-              Request Appointment
+            <button disabled={submitting} className="w-full mt-4 px-8 py-4 bg-foreground text-background text-xs uppercase tracking-[0.32em] hover:bg-foreground/85 transition disabled:opacity-50">
+              {submitting ? "Sending…" : "Request Appointment"}
             </button>
           </>
         )}
